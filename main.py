@@ -17,13 +17,17 @@ sides = ["H","O","A"]
 #start menu function
 def start_menu():
     print("STUDY!!!")
-    num_questions = int(input("how many questions do you want to awnser?"))
-    if num_questions < 1:
-        print("please pick a number higher than 0")
-        start_menu()
-    else:
-        score = 0
-        question_maker(num_questions)
+    while True:
+        try:
+            num_questions = int(input("how many questions do you want to awnser? "))
+            if num_questions < 1:
+                print("please enter a number higher than 0")
+                continue
+            break
+        except ValueError:
+            print("please enter a number")
+    score = 0
+    question_maker(num_questions)
     
    
 #question maker function
@@ -31,34 +35,35 @@ def question_maker(num_questions):
     side1 = random.choice(sides)
     side2 = random.choice(sides)
     if side1 == side2:
-        question_maker(num_questions) 
+        question_maker(num_questions)
     else:
         for i in range(num_questions):
-            num1 =  random.choice(numbers1)
-            num2 =  random.choice(numbers1)
-            caclculate(side1, side2, num1, num2)
+            num1 = random.choice(numbers1)
+            num2 = random.choice(numbers1)
+            correct = caclculate(side1, side2, num1, num2)
             print(f"what is the awnser of {num1} {side1} + {num2} {side2}")
-            quiz()
+            user_ans = quiz()
+            if user_ans == correct:
+                print("correct")
+            else:
+                print("wrong")
+                print(f"the correct awnser is {correct}")
 
 
 #quiz function
 def quiz():
-    awnser = int(input("what is the awnser?"))
-    if awnser == int(awnser):
-        return awnser
-    else:
-        print("please enter a number")
-        quiz()
+    while True:
+        try:
+            awnser = int(input("what is the awnser? "))
+            return awnser
+        except ValueError:
+            print("please enter a number")
       
 
 #caclculate function
-def caclculate( side1, side2, awnser):
-    if awnser == 1:
-        print("correct")
-    else:
-        print("wrong")
-        print(f"the correct awnser is {awnser}")
-      
+def caclculate(side1, side2, num1, num2):
+    # convert stored string numbers to int and compute sum (adjust if operation rules differ)
+    return int(num1) + int(num2)
     
 
 if __name__ == "__main__":
