@@ -11,24 +11,39 @@ numbers1 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
     "81", "82", "83", "84", "85", "86", "87", "88", "89", "90",
     "91", "92", "93", "94", "95", "96", "97", "98", "99", "100"
 ]
-
-
 sides = ["H","O","A"]
 
 #start menu function
 def start_menu():
     print("STUDY!!!")
-    while True:
-        try:
-            num_questions = int(input("how many questions do you want to awnser? "))
-            if num_questions < 1:
-                print("please enter a number higher than 0")
-                continue
-            break
-        except ValueError:
-            print("please enter a number")
-    question_maker(num_questions)
-
+    print("welcome to study")
+    input("what is your name?")
+    print("what would you like to study?")
+    print("1. math")
+    print("2. english")
+    print("3. geography")
+    choice = input("enter the number of the subject you want to study: ")
+    if choice == "1":
+        start_math()
+    elif choice == "2":
+        print("english is not available yet")
+    elif choice == "3":
+        print("geography is not available yet")
+    else:
+        print("invalid choice")
+        start_menu()
+#math quiz
+def start_math():
+        while True:
+            try:
+                num_questions = int(input("how many questions do you want to awnser? "))
+                if num_questions < 1:
+                    print("please enter a number higher than 0")
+                    continue
+                break
+            except ValueError:  
+                print("please enter a number")
+        question_maker(num_questions)
 def question_maker(num_questions):
     score = 0
     for i in range(num_questions):
@@ -49,7 +64,6 @@ def question_maker(num_questions):
             print("wrong")
             print(f"the correct awnser is {result}")
     print(f"Score: {score}/{num_questions}")
-
 #quiz function
 def quiz(side1, side2, num1, num2):
     while True:
@@ -58,7 +72,6 @@ def quiz(side1, side2, num1, num2):
             return float(input("what is the awnser? "))
         except ValueError:
             print("please enter a number")
-
 #caclculate function
 def caclculate(side1, side2, num1, num2):
     k1 = side1.lower(); k2 = side2.lower()
@@ -82,4 +95,24 @@ def caclculate(side1, side2, num1, num2):
         return None
     return None
 
+#english quiz
+def start_english():
+    while True:
+        try:
+            num_questions = int(input("how many questions do you want to awnser? "))
+            if num_questions < 1:
+                print("please enter a number higher than 0")
+                continue
+            break
+        except ValueError:  
+            print("please enter a number")
+        english_quiz(num_questions)
+def english_quiz(num_questions):
+    score = 0
+    for i in range(num_questions):
+        print("english quiz is not available yet")
+    print(f"Score: {score}/{num_questions}")
+    
+    
+#geography quiz
 start_menu()
