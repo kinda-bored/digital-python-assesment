@@ -19,6 +19,8 @@ def start_menu():
     print("welcome to study")
     input("what is your name?")
     print("what would you like to study?")
+    subject_choice()
+def subject_choice():
     print("1. math")
     print("2. english")
     print("3. geography")
@@ -31,7 +33,7 @@ def start_menu():
         print("geography is not available yet")
     else:
         print("invalid choice")
-        start_menu()
+        subject_choice()
 #math quiz
 def start_math():
         while True:
@@ -46,30 +48,46 @@ def start_math():
         question_maker(num_questions)
 def question_maker(num_questions):
     score = 0
-    for i in range(num_questions):
-        side1, side2 = random.sample(sides, 2)  # ensure different sides
+    asked = 0
+    attempts = 0
+    max_attempts = num_questions * 10  # safety limit
+
+    while asked < num_questions and attempts < max_attempts:
+        attempts += 1
+        # pick two different sides
+        side1, side2 = random.sample(sides, 2)
         num1 = random.choice(numbers1)
         num2 = random.choice(numbers1)
 
         result = caclculate(side1, side2, num1, num2)
         if result is None:
-            print("Skipping question due to calculation error.")
+            # invalid question — skip and do not increment `asked`
             continue
 
         user_ans = quiz(side1, side2, num1, num2)
-        if abs(user_ans - result) < 1e-3:
+        if abs(user_ans - result) < 1e-2:
             print("correct")
+            print(attempts)
             score += 1
         else:
             print("wrong")
-            print(f"the correct awnser is {result}")
-    print(f"Score: {score}/{num_questions}")
+            print(f"the correct answer is {round(result, 2)}")
+            print(attempts)
+            print(asked)
+            
+
+        asked += 1
+
+    if attempts >= max_attempts and asked < num_questions:
+        print("Could not generate enough valid questions; finishing early.")
+
+    end_menu_math(score, asked)
 #quiz function
 def quiz(side1, side2, num1, num2):
     while True:
         try:
             print(f"side one is {side1} and is {num1} long and side two is {side2} and is {num2} long")
-            return float(input("what is the awnser? "))
+            return float(input("what is the answer? "))
         except ValueError:
             print("please enter a number")
 #caclculate function
@@ -79,40 +97,38 @@ def caclculate(side1, side2, num1, num2):
         return None
     try:
         length1 = float(num1); length2 = float(num2)
+    except ValueError:
+        return None
+    if length1 <= 0 or length2 <= 0:
+        return None
+    try:
         if k1 == "h" and k2 == "a":
-            return math.degrees(math.acos(length2/length1))
+            ratio = length2 / length1
+            if abs(ratio) > 1: return None
+            return math.degrees(math.acos(ratio))
         if k1 == "a" and k2 == "h":
-            return math.degrees(math.acos(length1/length2))
+            ratio = length1 / length2
+            if abs(ratio) > 1: return None
+            return math.degrees(math.acos(ratio))
         if k1 == "h" and k2 == "o":
-            return math.degrees(math.asin(length2/length1))
+            ratio = length2 / length1
+            if abs(ratio) > 1: return None
+            return math.degrees(math.asin(ratio))
         if k1 == "o" and k2 == "h":
-            return math.degrees(math.asin(length1/length2))
+            ratio = length1 / length2
+            if abs(ratio) > 1: return None
+            return math.degrees(math.asin(ratio))
         if k1 == "o" and k2 == "a":
-            return math.degrees(math.atan(length1/length2))
+            if length2 == 0: return None
+            return math.degrees(math.atan(length1 / length2))
         if k1 == "a" and k2 == "o":
-            return math.degrees(math.atan(length2/length1))
-    except Exception:
+            if length1 == 0: return None
+            return math.degrees(math.atan(length2 / length1))
+    except ZeroDivisionError:
         return None
     return None
-
-#english quiz
-def start_english():
-    while True:
-        try:
-            num_questions = int(input("how many questions do you want to awnser? "))
-            if num_questions < 1:
-                print("please enter a number higher than 0")
-                continue
-            break
-        except ValueError:  
-            print("please enter a number")
-        english_quiz(num_questions)
-def english_quiz(num_questions):
-    score = 0
-    for i in range(num_questions):
-        print("english quiz is not available yet")
+def end_menu_math(score, num_questions):
     print(f"Score: {score}/{num_questions}")
+
     
-    
-#geography quiz
 start_menu()
