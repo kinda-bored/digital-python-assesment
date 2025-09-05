@@ -13,13 +13,15 @@ numbers1 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
 ]
 sides = ["H","O","A"]
 
-#start menu function
+#this is the start menu
 def start_menu():
     print("STUDY!!!")
     print("welcome to study")
     input("what is your name? ")
     print("what would you like to study?")
     subject_choice()
+    
+#this is where u pick what subject u want to study
 def subject_choice():
     print("1. trigonometry")
     choice = input("enter the number of the subject you want to study: ")
@@ -28,7 +30,8 @@ def subject_choice():
     else:
         print("invalid choice")
         subject_choice()
-#math quiz
+        
+# this is where u slect how many questions u want to awnser
 def start_math():
         while True:
             try:
@@ -40,24 +43,23 @@ def start_math():
             except ValueError:  
                 print("please enter a number")
         question_maker(num_questions)
+        
+#this is where the lengths and sides are picked and the awnsers are checked
 def question_maker(num_questions):
     score = 0
     asked = 0
     attempts = 0
     max_attempts = num_questions * 10  # safety limit
-
     while asked < num_questions and attempts < max_attempts:
         attempts += 1
         # pick two different sides
         side1, side2 = random.sample(sides, 2)
         num1 = random.choice(numbers1)
         num2 = random.choice(numbers1)
-
         result = caclculate(side1, side2, num1, num2)
         if result is None:
             # invalid question — skip and do not increment `asked`
             continue
-
         user_ans = quiz(side1, side2, num1, num2)
         if abs(user_ans - result) < 1e-2:
             print("correct")
@@ -68,15 +70,12 @@ def question_maker(num_questions):
             print(f"the correct answer is {round(result, 2)}")
             print(attempts)
             print(asked)
-            
-
         asked += 1
-
     if attempts >= max_attempts and asked < num_questions:
         print("Could not generate enough valid questions; finishing early.")
-
     end_menu_math(score, asked)
-#quiz function
+    
+#this is where the question is asked
 def quiz(side1, side2, num1, num2):
     while True:
         try:
@@ -85,7 +84,8 @@ def quiz(side1, side2, num1, num2):
             return float(input("what is the answer? "))
         except ValueError:
             print("please enter a number")
-#caclculate function
+
+#this is where the angle is caclculated is that the sides and lengths are vaild and so the anwer is generated
 def caclculate(side1, side2, num1, num2):
     k1 = side1.lower(); k2 = side2.lower()
     if k1 == k2 or k1 not in ("h","o","a") or k2 not in ("h","o","a"):
@@ -122,8 +122,15 @@ def caclculate(side1, side2, num1, num2):
     except ZeroDivisionError:
         return None
     return None
+
+#this is where the score is displayed at the end and asked if u want to play again
 def end_menu_math(score, num_questions):
     print(f"Score: {score}/{num_questions}")
-
-    
+    play_again = input("press 1 to return to the main menu or any other key to exit: ")
+    if play_again == "1":
+        start_math()
+    else:
+        exit()
+        
+#this starts the program    
 start_menu()
