@@ -17,20 +17,14 @@ sides = ["H","O","A"]
 def start_menu():
     print("STUDY!!!")
     print("welcome to study")
-    input("what is your name?")
+    input("what is your name? ")
     print("what would you like to study?")
     subject_choice()
 def subject_choice():
-    print("1. math")
-    print("2. english")
-    print("3. geography")
+    print("1. trigonometry")
     choice = input("enter the number of the subject you want to study: ")
     if choice == "1":
         start_math()
-    elif choice == "2":
-        print("english is not available yet")
-    elif choice == "3":
-        print("geography is not available yet")
     else:
         print("invalid choice")
         subject_choice()
@@ -87,6 +81,7 @@ def quiz(side1, side2, num1, num2):
     while True:
         try:
             print(f"side one is {side1} and is {num1} long and side two is {side2} and is {num2} long")
+            print("what is the angle?")
             return float(input("what is the answer? "))
         except ValueError:
             print("please enter a number")
